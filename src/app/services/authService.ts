@@ -33,8 +33,13 @@ export const authService = {
   },
 
   getUser: (): UserData | null => {
-    const userStr = localStorage.getItem('current_user');
-    return userStr ? JSON.parse(userStr) : null;
+    try {
+      const userStr = localStorage.getItem('current_user');
+      if (!userStr || userStr === 'undefined') return null;
+      return JSON.parse(userStr);
+    } catch {
+      return null;
+    }
   },
 
   updateProfile: async (name: string) => {
